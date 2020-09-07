@@ -2,6 +2,8 @@ package com.company.list;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MyArrayList<E> implements MyList<E> {
     private static final int DEFAULT_CAPACITY = 10;
@@ -17,7 +19,7 @@ public class MyArrayList<E> implements MyList<E> {
     public MyArrayList(int initialCapacity) {
         this.objects = new Object[initialCapacity];
     }
-
+List<String>list1t = new LinkedList<>();
     @Override
     public void add(E e) {
         if (size == objects.length) grow();

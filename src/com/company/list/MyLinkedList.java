@@ -77,11 +77,14 @@ public class MyLinkedList<E> implements MyList<E>{
     // TODO: 02.09.2020
     @Override
     public E get(int index) {
+        Node<E> temp = this.root;
         if (isEmpty() && index != 0) {
             throw new IndexOutOfBoundsException();
         }
-        return listIterator(index).next();
+//        return node(index).item;
+        return null;
     }
+
 
 
     @Override
