@@ -71,24 +71,47 @@ public class MyLinkedList<E> implements MyList<E>{
 
     @Override
     public E remove(int index) {
+        Node<E> temp = this.root;
+        for (int i = 0; i < size; i++) {
+            if (i == index) {
+                Node<E> right = temp.next;
+                E old = temp.getElement();
+                right.next = right;
+                temp.next = null;
+                temp.setElement(null);
+                size--;
+                return old;
+            }
+            temp = temp.next;
+        }
         return null;
     }
 
     // TODO: 02.09.2020
     @Override
     public E get(int index) {
-        Node<E> temp = this.root;
-        if (isEmpty() && index != 0) {
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
-//        return node(index).item;
-        return null;
+        Node<E> result = root;
+        for (int i = 0; i < index; i++) {
+            result = result.next;
+        }
+
+        return result.element;
     }
 
 
 
     @Override
     public boolean contains(Object o) {
+        Node<E> temp = this.root;
+        for (int i = 0; i < size; i++) {
+            if (temp.getElement().equals(o)) {
+                return true;
+            }
+            temp = temp.next;
+        }
         return false;
     }
 

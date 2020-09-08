@@ -1,6 +1,7 @@
 package com.company.list;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class MyDeqLinkedList<E> implements MyList<E> {
@@ -20,6 +21,7 @@ public class MyDeqLinkedList<E> implements MyList<E> {
         System.out.println(stringMyDeqLinkedList.remove(2));
         System.out.println(stringMyDeqLinkedList);
 
+        System.out.println(Arrays.toString(stringMyDeqLinkedList.toArray()));
     }
 
     @Override
@@ -122,8 +124,8 @@ public class MyDeqLinkedList<E> implements MyList<E> {
     public Object[] toArray() {
         Object[] result = new Object[size];
         int i = 0;
-        for (LinkedList.Node<E> x = first; x != null; x = x.next)
-            result[i++] = x.item;
+        for (MyDeqLinkedList.Node<E> x = first; x != null; x = x.next)
+            result[i++] = x.element;
         return result;
     }
 
