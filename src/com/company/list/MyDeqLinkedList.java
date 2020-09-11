@@ -1,14 +1,11 @@
 package com.company.list;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 
 public class MyDeqLinkedList<E> implements MyList<E> {
     private int size;
     private Node<E> first;
     private Node<E> last;
-    LinkedList<String>linkedList = new LinkedList<>();
+
     public static void main(String[] args) {
         MyDeqLinkedList<String> stringMyDeqLinkedList = new MyDeqLinkedList<>();
         stringMyDeqLinkedList.add("Hello 1");

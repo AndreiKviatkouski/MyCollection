@@ -1,5 +1,7 @@
 package com.company.queue;
 
+import java.util.NoSuchElementException;
+
 public interface MyQueue<E> {
     boolean add(E e);
     boolean offer(E e);
@@ -7,6 +9,6 @@ public interface MyQueue<E> {
     E remove();
     E poll();
 
-    E element();
+    E element() throws NoSuchElementException;
     E peek();
 }

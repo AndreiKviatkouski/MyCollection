@@ -19,7 +19,7 @@ public class MyArrayList<E> implements MyList<E> {
     public MyArrayList(int initialCapacity) {
         this.objects = new Object[initialCapacity];
     }
-List<String>list1t = new LinkedList<>();
+
     @Override
     public void add(E e) {
         if (size == objects.length) grow();
