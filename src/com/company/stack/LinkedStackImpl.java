@@ -75,13 +75,10 @@ public class LinkedStackImpl<E> implements Stack<E> {
         return -1;
     }
 
-
-
-
     private static class Node<E> {
         E element;
-        LinkedStackImpl.Node<E> prev;
-        LinkedStackImpl.Node<E> next;
+        Node<E> prev;
+        Node<E> next;
 
         public Node(E element, LinkedStackImpl.Node<E> prev, LinkedStackImpl.Node<E> next) {
             this.element = element;

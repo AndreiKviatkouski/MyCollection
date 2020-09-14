@@ -27,7 +27,7 @@ public class MyQueueImpl<E> implements MyQueue<E> {
 
     @Override
     public E remove() {
-        if (objects[0] == null) {
+        if (size == 0) {
             throw new NoSuchElementException();
         }
         Object old = objects[0];
@@ -41,7 +41,7 @@ public class MyQueueImpl<E> implements MyQueue<E> {
 
     @Override
     public E poll() {
-        if (objects[0] == null) {
+        if (size == 0) {
             return null;
 
         }
@@ -55,7 +55,7 @@ public class MyQueueImpl<E> implements MyQueue<E> {
 
     @Override
     public E element()  {
-        if (objects[0] == null) {
+        if (size == 0) {
             throw new NoSuchElementException();
         }
         return (E) objects[0];
@@ -64,7 +64,7 @@ public class MyQueueImpl<E> implements MyQueue<E> {
 
     @Override
     public E peek() {
-        if (objects[0] == null) {
+        if (size == 0) {
             return null;
         }
         return (E) objects[0];
