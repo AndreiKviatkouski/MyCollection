@@ -1,40 +1,12 @@
 package com.company.map;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.security.KeyStore;
+import java.util.*;
 
 public class MyMapImpl<K, V> implements MyMap<K, V> {
     private Object[] keys = new Object[10];
     private Object[] values = new Object[10];
     private int size;
-
-    public static void main(String[] args) {
-        MyMapImpl<String, String> stringStringMyMap = new MyMapImpl<>();
-        stringStringMyMap.put("1", "11");
-        stringStringMyMap.put("2", "22");
-        stringStringMyMap.put("3", "33");
-        stringStringMyMap.put("4", "44");
-        stringStringMyMap.put("5", "55");
-
-        System.out.println(stringStringMyMap);
-
-//        System.out.println(stringStringMyMap.get("3"));
-
-//        System.out.println(stringStringMyMap.remove("4"));
-
-//        System.out.println(stringStringMyMap);
-
-//        System.out.println(stringStringMyMap.containsKey("3"));
-//        System.out.println(stringStringMyMap.containsKey("9"));
-//        System.out.println(stringStringMyMap.containsValue("33"));
-//        System.out.println(stringStringMyMap.containsValue("99"));
-
-        System.out.println(stringStringMyMap.put("2", "222"));
-
-        System.out.println(stringStringMyMap);
-    }
 
     @Override
     public V put(K k, V v) {
@@ -106,10 +78,12 @@ public class MyMapImpl<K, V> implements MyMap<K, V> {
 
     @Override
     public List<Map.Entry<K, V>> entries() {
-        Entry<Object, Object> objectObjectEntry = new Entry<>(keys[0], values[0]);
-        List<Map.Entry<K, V>> list = new LinkedList<>();
-        list.add((Map.Entry<K, V>) objectObjectEntry);
-        return null;
+        List<Map.Entry<K,V>> list = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            Entry<Object, Object> objectObjectEntry = new Entry<>(keys[i], values[i]);
+            list.add((Map.Entry<K, V>) objectObjectEntry);
+        }
+        return list;
     }
 
     @Override
