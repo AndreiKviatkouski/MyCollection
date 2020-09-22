@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Objects.hash;
-
 public class MyHashMap<K, V> implements MyMap<K, V> {
     private static final int DEFAULT_CAPACITY = 16;
     private Node<K, V>[] table;
@@ -18,83 +16,133 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         this.entryList = new ArrayList<>();
     }
 
-    private int tableNum(int hash) {
-        return hash % (table.length - 1);
+    public static void main(String[] args) {
+        MyHashMap<String, String> stringStringMyHashMap = new MyHashMap<>();
+        stringStringMyHashMap.put("1", "Hello 1");
+        stringStringMyHashMap.put("2", "Hello 2");
+        stringStringMyHashMap.put("3", "Hello 3");
+        System.out.println(stringStringMyHashMap.keys());
+
+        System.out.println(stringStringMyHashMap.values());
+
+        System.out.println(stringStringMyHashMap);
+
+//        System.out.println(stringStringMyHashMap.get("3"));
+
+        System.out.println(stringStringMyHashMap.remove("2"));
+
+        System.out.println(stringStringMyHashMap);
     }
 
-    private Node<K, V> getNode(int hash, K key) {
-        if (table[tableNum(hash)] == null) {
-            return null;
-        } else {
-            Node<K, V> current = table[tableNum(hash)];
-
-            while (current.next != null) {
-                if (current.getKey().equals(key)) {
-                    return current;
-                }
-                current = current.next;
-            }
-            return current;
-        }
+    private int getIndex(K k) {
+        return Math.abs(k.hashCode() % DEFAULT_CAPACITY);
     }
-
 
     @Override
     public V put(K k, V v) {
-        if (k == null) {
-            throw new IllegalStateException();
-        }
+        Node<K, V> kvNode = new Node<>(k.hashCode(), k, v, null);
+        int index = getIndex(k);
 
-        return null;
+        if (table[index] == null) {
+            table[index] = kvNode;
+            size++;
+            entryList.add(kvNode);
+        } else {
+            Node<K, V> temp = table[index];
+            while (temp != null) {
+                if (temp.key.equals(k)) {
+                    V old = temp.getValue();
+                    temp.setValue(v);
+                    return old;
+                }
+                temp = temp.next;
+            }
+            Node<K, V> kvNode1 = table[index];
+            kvNode.next = kvNode1;
+            table[index] = kvNode;
+            size++;
+            entryList.add(kvNode);
+        }
+        return v;
     }
 
     @Override
     public V remove(K k) {
-        Node<K, V> currentNode;
-        if ((currentNode = getNode(hash(k), (K) k)) == null) {
-            return null;
-        } else {
-            if (currentNode.key.equals(k)) {
-                table[tableNum(currentNode.hash)] = null;
+        int index = getIndex(k);
+        if (table[index] != null) {
+            if (table[index].getKey().equals(k)) {
+                Node<K, V> kvNode = table[index];
+                Node<K, V> right = kvNode.next;
+                table[index] = right;
+                entryList.remove(kvNode);
+                V old = kvNode.getValue();
+                kvNode.next = null;
+                kvNode.key = null;
+                size--;
+                return old;
             } else {
-                while (!currentNode.next.getKey().equals(k)) {
-                    currentNode = currentNode.next;
+                Node<K, V> temp = table[index];
+                while (temp.next != null) {
+                    if (temp.next.getKey().equals(k)) {
+                        Node<K, V> left = temp;
+                        Node<K, V> right = temp.next.next;
+                        temp.next.next = null;
+                        temp.key = null;
+                        entryList.remove(temp);
+                        V old = temp.value;
+                        temp.value = null;
+                        left.next = right;
+                        size--;
+                        return old;
+                    }
                 }
-                currentNode.next = null;
             }
-            size--;
-            return currentNode.value;
         }
+        return null;
     }
 
 
     @Override
     public V get(K k) {
-        Node<K, V> node = getNode(hash(k), (K) k);
-        return node == null ? null : node.getValue();
+        int index = getIndex(k);
+        Node<K, V> temp = table[index];
+        while (temp != null) {
+            if (temp.getKey().equals(k)) {
+                return temp.getValue();
+            }
+            temp = temp.next;
+        }
+        return null;
     }
 
 
     @Override
     public List<K> keys() {
-        int count = 0;
-        return null;
+        List<K> keys = new ArrayList<>();
+        for (Map.Entry<K, V> kvEntry : entryList) {
+            keys.add(kvEntry.getKey());
+        }
+        return keys;
     }
 
     @Override
     public List<V> values() {
-        return null;
+        List<V> value = new ArrayList<>();
+        for (Map.Entry<K, V> kvEntry : entryList) {
+            value.add(kvEntry.getValue());
+        }
+        return value;
     }
 
     @Override
     public List<Map.Entry<K, V>> entries() {
-        return null;
+        return new ArrayList<>(entryList);
     }
 
     @Override
     public boolean containsKey(K k) {
-        for (Map.Entry<K, V> item : entryList) {
-            if (item.getKey() == k) {
+        for (Map.Entry<K, V> kvEntry : entryList) {
+            if (kvEntry.getKey().equals(k)) {
                 return true;
             }
         }
@@ -103,14 +151,13 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
 
     @Override
     public boolean containsValue(V v) {
-        for (Map.Entry<K, V> item : entryList) {
-            if (item.getValue() == v) {
+        for (Map.Entry<K, V> kvEntry : entryList) {
+            if (kvEntry.getValue().equals(v)) {
                 return true;
             }
         }
         return false;
     }
-
 
     @Override
     public String toString() {
